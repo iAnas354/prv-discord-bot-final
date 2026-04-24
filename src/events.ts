@@ -7,7 +7,7 @@ import { EmbedBuilder } from "discord.js";
 export function registerEvents(client: Client, lavalink: LavalinkManager) {
   client.on(Events.ClientReady, async (c) => {
     console.log(`[bot] Ready as ${c.user.tag}`);
-    c.user.setActivity("music 🎵 | !help", { type: 1 });
+    c.user.setActivity("انس عمك", { type: 1 });
     await lavalink.init({ id: c.user.id, username: c.user.username });
     console.log("[bot] Lavalink manager initialized");
   });
