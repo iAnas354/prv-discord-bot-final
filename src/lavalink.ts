@@ -3,10 +3,10 @@ import { LavalinkManager, type Track } from "lavalink-client";
 import { sendNowPlayingMessage, disableNowPlayingButtons } from "./buttons.js";
 
 export function setupLavalink(client: Client): LavalinkManager {
-  const host = process.env["LAVALINK_HOST"] ?? "localhost";
-  const port = parseInt(process.env["LAVALINK_PORT"] ?? "2333", 10);
-  const password = process.env["LAVALINK_PASSWORD"] ?? "youshallnotpass";
-  const secure = process.env["LAVALINK_SECURE"] === "true";
+  const host = process.env["LAVALINK_HOST"] ?? "sg2-nodelink.nyxbot.app";
+  const port = parseInt(process.env["LAVALINK_PORT"] ?? "3000", 10);
+  const password = process.env["LAVALINK_PASSWORD"] ?? "nyxbot.app/support";
+  const secure = process.env["LAVALINK_SECURE"] === "false";
 
   const manager = new LavalinkManager({
     nodes: [
