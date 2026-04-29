@@ -6,7 +6,7 @@ export function setupLavalink(client: Client): LavalinkManager {
   const host = process.env["LAVALINK_HOST"] ?? "sg2-nodelink.nyxbot.app";
   const port = parseInt(process.env["LAVALINK_PORT"] ?? "3000", 10);
   const password = process.env["LAVALINK_PASSWORD"] ?? "nyxbot.app/support";
-  const secure = process.env["LAVALINK_SECURE"] === "false";
+  const secure = process.env["LAVALINK_SECURE"] === "true";
 
   const manager = new LavalinkManager({
     nodes: [
