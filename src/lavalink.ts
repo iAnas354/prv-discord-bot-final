@@ -4,7 +4,7 @@ import { sendNowPlayingMessage, disableNowPlayingButtons } from "./buttons.js";
 
 export function setupLavalink(client: Client): LavalinkManager {
   const host = process.env["LAVALINK_HOST"] ?? "lavalinkv4.serenetia.com";
-  const port = parseInt(process.env["LAVALINK_PORT"] ?? "443", 10);
+  const port = parseInt(process.env["LAVALINK_PORT"] ?? "80", 10);
   const password = process.env["LAVALINK_PASSWORD"] ?? "https://dsc.gg/ajidevserver";
   const secure = process.env["LAVALINK_SECURE"] === "true";
 
