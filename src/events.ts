@@ -136,7 +136,11 @@ export function registerEvents(client: Client, lavalink: LavalinkManager) {
     }
   });
 
-  client.on(Events.Raw, (packet) => {
-    lavalink.sendRawData(packet);
+   client.on(Events.Raw, (packet) => {
+    try {
+      lavalink.sendRawData(packet);
+    } catch {
+      // Node not ready yet — ignore and wait for reconnect
+    }
   });
 }
