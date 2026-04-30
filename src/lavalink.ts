@@ -3,21 +3,34 @@ import { LavalinkManager, type Track } from "lavalink-client";
 import { sendNowPlayingMessage, disableNowPlayingButtons } from "./buttons.js";
 
 export function setupLavalink(client: Client): LavalinkManager {
-  const host = process.env["LAVALINK_HOST"] ?? "sg2-nodelink.nyxbot.app";
-  const port = parseInt(process.env["LAVALINK_PORT"] ?? "3000", 10);
-  const password = process.env["LAVALINK_PASSWORD"] ?? "nyxbot.app/support";
-  const secure = process.env["LAVALINK_SECURE"] === "false";
-
   const manager = new LavalinkManager({
     nodes: [
       {
-        host,
-        port,
-        authorization: password,
-        secure,
-        id: "main",
-        retryAmount: 999,
-        retryDelay: 5000,
+        host: "lava-v4.ajieblogs.eu.org",
+        port: 443,
+        authorization: "https://dsc.gg/ajidevserver",
+        secure: true,
+        id: "node1",
+        retryAmount: 5,
+        retryDelay: 10000,
+      },
+      {
+        host: "sg2-nodelink.nyxbot.app",
+        port: 3000,
+        authorization: "nyxbot.app/support",
+        secure: false,
+        id: "node2",
+        retryAmount: 5,
+        retryDelay: 10000,
+      },
+      {
+        host: "lavalink.devamop.in",
+        port: 443,
+        authorization: "DevamOP",
+        secure: true,
+        id: "node3",
+        retryAmount: 5,
+        retryDelay: 10000,
       },
     ],
     sendToShard: (guildId, payload) => {
@@ -42,15 +55,13 @@ export function setupLavalink(client: Client): LavalinkManager {
   });
 
   manager.nodeManager.on("connect", (node) => {
-    console.log(`[lavalink] Node "${node.id}" connected`);
+    console.log(`[lavalink] Node "${node.id}" connected ✅`);
   });
-
   manager.nodeManager.on("error", (node, error) => {
-    console.error(`[lavalink] Node "${node.id}" error:`, error);
+    console.error(`[lavalink] Node "${node.id}" error: ${error.message}`);
   });
-
   manager.nodeManager.on("disconnect", (node) => {
-    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying…`);
+    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 10s…`);
   });
 
   manager.on("trackStart", (player, track: Track | null) => {
