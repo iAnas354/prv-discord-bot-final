@@ -7,13 +7,26 @@ import { EmbedBuilder } from "discord.js";
 export function registerEvents(client: Client, lavalink: LavalinkManager) {
   client.on(Events.ClientReady, async (c) => {
     console.log(`[bot] Ready as ${c.user.tag}`);
-    c.user.setActivity("انس عمك", { type: 1 });
+    c.user.setActivity("music 🎵 | !help", { type: 1 });
     await lavalink.init({ id: c.user.id, username: c.user.username });
     console.log("[bot] Lavalink manager initialized");
   });
 
   client.on(Events.MessageCreate, async (message) => {
     if (message.author.bot) return;
+
+    // Arabic shortcut: ش <song> → play
+    if (message.content.startsWith("ش")) {
+      const query = message.content.slice(1).trim();
+      try {
+        await handleCommand("play", query ? query.split(/\s+/) : [], message, lavalink);
+      } catch (err) {
+        console.error("[bot] Command error:", err);
+        message.reply("❌ Something went wrong.").catch(() => {});
+      }
+      return;
+    }
+
     if (!message.content.startsWith("!")) return;
     const args = message.content.slice(1).trim().split(/\s+/);
     const commandName = args.shift()?.toLowerCase() ?? "";
@@ -102,7 +115,6 @@ export function registerEvents(client: Client, lavalink: LavalinkManager) {
     const botId = client.user?.id;
     if (!botId) return;
 
-    // Bot was kicked from voice
     if (oldState.member?.id === botId && oldState.channelId && !newState.channelId) {
       const guildId = oldState.guild.id;
       const channelId = oldState.channelId;
@@ -114,11 +126,9 @@ export function registerEvents(client: Client, lavalink: LavalinkManager) {
           if (player) {
             if (!player.voiceChannelId) (player as any).voiceChannelId = channelId;
             await player.connect();
-            console.log(`[bot] Rejoined voice (existing player) in guild ${guildId}`);
           } else {
             player = await lavalink.createPlayer({ guildId, voiceChannelId: channelId, selfDeaf: true, volume: 80 });
             await player.connect();
-            console.log(`[bot] Rejoined voice (new player) in guild ${guildId}`);
           }
         } catch (err) {
           console.error("[bot] Rejoin failed — retrying in 10s:", err);
@@ -136,11 +146,11 @@ export function registerEvents(client: Client, lavalink: LavalinkManager) {
     }
   });
 
-   client.on(Events.Raw, (packet) => {
+  client.on(Events.Raw, (packet) => {
     try {
       lavalink.sendRawData(packet);
     } catch {
-      // Node not ready yet — ignore and wait for reconnect
+      // Node not ready yet — ignore
     }
   });
 }
