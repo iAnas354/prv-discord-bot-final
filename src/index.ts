@@ -1,3 +1,6 @@
+// Allow self-signed / expired certs on public free Lavalink nodes
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
 import http from "http";
 import { startBot } from "./bot.js";
 
