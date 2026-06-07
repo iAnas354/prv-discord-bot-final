@@ -6,34 +6,22 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        // Non-SSL port 80 — no certificate issues on any host
-        host: "lavalinkv4.serenetia.com",
-        port: 80,
-        authorization: "https://dsc.gg/ajidevserver",
-        secure: false,
-        id: "node1",
-        retryAmount: 999,
-        retryDelay: 10000,
-      },
-      {
-        // Backup non-SSL
-        host: "lavalink.serenetia.com",
-        port: 80,
-        authorization: "https://dsc.gg/ajidevserver",
-        secure: false,
-        id: "node2",
-        retryAmount: 999,
-        retryDelay: 10000,
-      },
-      {
-        // SSL backup with cert check disabled via NODE_TLS_REJECT_UNAUTHORIZED=0
         host: "lava-v4.ajieblogs.eu.org",
         port: 443,
         authorization: "https://dsc.gg/ajidevserver",
         secure: true,
-        id: "node3",
+        id: "node1",
         retryAmount: 999,
-        retryDelay: 10000,
+        retryDelay: 15000,
+      },
+      {
+        host: "lavalinkv4.serenetia.com",
+        port: 443,
+        authorization: "https://dsc.gg/ajidevserver",
+        secure: true,
+        id: "node2",
+        retryAmount: 999,
+        retryDelay: 15000,
       },
     ],
     sendToShard: (guildId, payload) => {
@@ -64,7 +52,7 @@ export function setupLavalink(client: Client): LavalinkManager {
     console.error(`[lavalink] Node "${node.id}" error: ${error?.message ?? String(error)}`);
   });
   manager.nodeManager.on("disconnect", (node) => {
-    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 10s…`);
+    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 15s…`);
   });
 
   manager.on("trackStart", (player, track: Track | null) => {
