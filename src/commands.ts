@@ -26,6 +26,8 @@ export async function handleCommand(
     case "np":        return cmdNowPlaying(message, lavalink);
     case "volume":
     case "vol":       return cmdVolume(args, message, lavalink);
+    case "loop":
+    case "l":         return cmdLoop(args, message, lavalink);
     case "leave":     return cmdLeave(message, lavalink);
     default:          return;
   }
@@ -42,8 +44,9 @@ async function cmdHelp(message: Message) {
     "`!queue` — Show queue\n" +
     "`!np` — Now playing\n" +
     "`!volume <1-100>` — Set volume\n" +
+    "`!loop` — Cycle loop: Off → 🔂 Track → 🔁 Queue → Off\n" +
     "`!leave` — Leave voice (owner only)\n\n" +
-    "💡 **Tip:** Each song shows a control panel with ⏸ ⏭ ⏹ 🔉 🔊 buttons!"
+    "💡 **Tip:** Each song shows a control panel with ⏸ ⏭ ⏹ 🔉 🔊 🔁 buttons!"
   );
 }
 
@@ -205,6 +208,34 @@ async function cmdVolume(args: string[], message: Message, lavalink: LavalinkMan
   if (isNaN(vol) || vol < 1 || vol > 100) { await message.reply("❌ Volume must be 1–100."); return; }
   await player.setVolume(vol);
   await message.reply(`🔊 Volume set to **${vol}%**`);
+}
+
+async function cmdLoop(args: string[], message: Message, lavalink: LavalinkManager) {
+  if (!message.guild) return;
+  const player = lavalink.getPlayer(message.guild.id);
+  if (!player) { await message.reply("❌ Nothing is playing right now."); return; }
+
+  const modes = ["off", "track", "queue"] as const;
+  type LoopMode = typeof modes[number];
+
+  let next: LoopMode;
+  if (args[0] === "track" || args[0] === "song") next = "track";
+  else if (args[0] === "queue" || args[0] === "all") next = "queue";
+  else if (args[0] === "off") next = "off";
+  else {
+    const current = (player.repeatMode ?? "off") as LoopMode;
+    const idx = modes.indexOf(current);
+    next = modes[(idx + 1) % modes.length]!;
+  }
+
+  player.setRepeatMode(next);
+
+  const labels: Record<LoopMode, string> = {
+    off:   "➡️ Loop **off**",
+    track: "🔂 Looping **current track**",
+    queue: "🔁 Looping **entire queue**",
+  };
+  await message.reply(labels[next]);
 }
 
 async function cmdLeave(message: Message, lavalink: LavalinkManager) {
