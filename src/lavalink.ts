@@ -6,18 +6,18 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lava-v4.ajieblogs.eu.org",
+        host: "lavalinkv4.serenetia.com",
         port: 443,
-        authorization: "https://dsc.gg/ajidevserver",
+        authorization: "https://seretia.link/discord",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 15000,
       },
       {
-        host: "lavalinkv4.serenetia.com",
+        host: "lavalink.jirayu.net",
         port: 443,
-        authorization: "https://dsc.gg/ajidevserver",
+        authorization: "youshallnotpass",
         secure: true,
         id: "node2",
         retryAmount: 999,
