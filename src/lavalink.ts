@@ -6,18 +6,18 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lavalinkv4.serenetia.com",
+        host: "lava-v4.ajieblogs.eu.org",
         port: 443,
-        authorization: "https://seretia.link/discord",
+        authorization: "https://dsc.gg/ajidevserver",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 15000,
       },
       {
-        host: "lavalink.jirayu.net",
+        host: "lavalinkv4.serenetia.com",
         port: 443,
-        authorization: "youshallnotpass",
+        authorization: "https://dsc.gg/ajidevserver",
         secure: true,
         id: "node2",
         retryAmount: 999,
@@ -48,11 +48,13 @@ export function setupLavalink(client: Client): LavalinkManager {
   manager.nodeManager.on("connect", (node) => {
     console.log(`[lavalink] Node "${node.id}" connected ✅`);
   });
+
   manager.nodeManager.on("error", (node, error) => {
-    console.error(`[lavalink] Node "${node.id}" error: ${error?.message ?? String(error)}`);
+    console.error(`[lavalink] Node "${node.id}" error: ${error.message}`);
   });
+
   manager.nodeManager.on("disconnect", (node) => {
-    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 15s…`);
+    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 10s…`);
   });
 
   manager.on("trackStart", (player, track: Track | null) => {
