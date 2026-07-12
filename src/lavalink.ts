@@ -6,20 +6,29 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lava-v4.ajieblogs.eu.org",
+        host: "lavalink.devamop.in",
         port: 443,
-        authorization: "https://dsc.gg/ajidevserver",
+        authorization: "DevamopInHosting",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 15000,
       },
       {
-        host: "lavalinkv4.serenetia.com",
+        host: "lavalink.truong.com.vn",
         port: 443,
-        authorization: "https://dsc.gg/ajidevserver",
+        authorization: "youshallnotpass",
         secure: true,
         id: "node2",
+        retryAmount: 999,
+        retryDelay: 15000,
+      },
+      {
+        host: "lava.link",
+        port: 443,
+        authorization: "discloud",
+        secure: true,
+        id: "node3",
         retryAmount: 999,
         retryDelay: 15000,
       },
@@ -72,12 +81,3 @@ export function setupLavalink(client: Client): LavalinkManager {
       disableNowPlayingButtons(player.guildId, "Queue Finished").catch(() => {});
       const channel = client.channels.cache.get(player.textChannelId ?? "");
       if (channel?.isTextBased() && "send" in channel) {
-        (channel as any)
-          .send("✅ Queue finished. Use `!play <song>` to add more.")
-          .catch(() => {});
-      }
-    }
-  });
-
-  return manager;
-}
