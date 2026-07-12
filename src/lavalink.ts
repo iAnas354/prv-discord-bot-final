@@ -54,7 +54,7 @@ export function setupLavalink(client: Client): LavalinkManager {
   });
 
   manager.nodeManager.on("disconnect", (node) => {
-    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying in 10s…`);
+    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying…`);
   });
 
   manager.on("trackStart", (player, track: Track | null) => {
@@ -73,7 +73,7 @@ export function setupLavalink(client: Client): LavalinkManager {
       const channel = client.channels.cache.get(player.textChannelId ?? "");
       if (channel?.isTextBased() && "send" in channel) {
         (channel as any)
-          .send("✅ Queue finished — still in the channel. Use `!play <song>` to add more.")
+          .send("✅ Queue finished. Use `!play <song>` to add more.")
           .catch(() => {});
       }
     }
