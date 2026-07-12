@@ -81,3 +81,12 @@ export function setupLavalink(client: Client): LavalinkManager {
       disableNowPlayingButtons(player.guildId, "Queue Finished").catch(() => {});
       const channel = client.channels.cache.get(player.textChannelId ?? "");
       if (channel?.isTextBased() && "send" in channel) {
+        (channel as any)
+          .send("✅ Queue finished — still in the channel. Use `!play <song>` to add more.")
+          .catch(() => {});
+      }
+    }
+  });
+
+  return manager;
+}
