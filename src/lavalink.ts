@@ -6,29 +6,20 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lavalink.devamop.in",
+        host: "lavalinkv4.serenetia.com",
         port: 443,
-        authorization: "DevamopInHosting",
+        authorization: "https://dsc.gg/ajidevserver",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 15000,
       },
       {
-        host: "lavalink.truong.com.vn",
+        host: "lavalink.devamop.in",
         port: 443,
-        authorization: "youshallnotpass",
+        authorization: "DevamopInHosting",
         secure: true,
         id: "node2",
-        retryAmount: 999,
-        retryDelay: 15000,
-      },
-      {
-        host: "lava.link",
-        port: 443,
-        authorization: "discloud",
-        secure: true,
-        id: "node3",
         retryAmount: 999,
         retryDelay: 15000,
       },
