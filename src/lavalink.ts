@@ -6,20 +6,29 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lavalinkv4.serenetia.com",
+        host: "lavalink.devamop.in",
         port: 443,
-        authorization: "https://dsc.gg/ajidevserver",
+        authorization: "DevamopInHosting",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 15000,
       },
       {
-        host: "lavalink.devamop.in",
+        host: "lava-v4.millohost.my.id",
         port: 443,
-        authorization: "DevamopInHosting",
+        authorization: "https://discord.gg/mjS5J2K3ep",
         secure: true,
         id: "node2",
+        retryAmount: 999,
+        retryDelay: 15000,
+      },
+      {
+        host: "lavalinkv4.serenetia.com",
+        port: 443,
+        authorization: "https://seretia.link/discord",
+        secure: true,
+        id: "node3",
         retryAmount: 999,
         retryDelay: 15000,
       },
@@ -37,47 +46,4 @@ export function setupLavalink(client: Client): LavalinkManager {
       volumeDecrementer: 0.75,
       onDisconnect: {
         autoReconnect: true,
-        autoReconnectOnlyWithTracks: false,
-      },
-      onEmptyQueue: {
-        destroyAfterMs: undefined,
-      },
-    },
-  });
-
-  manager.nodeManager.on("connect", (node) => {
-    console.log(`[lavalink] Node "${node.id}" connected ✅`);
-  });
-
-  manager.nodeManager.on("error", (node, error) => {
-    console.error(`[lavalink] Node "${node.id}" error: ${error.message}`);
-  });
-
-  manager.nodeManager.on("disconnect", (node) => {
-    console.warn(`[lavalink] Node "${node.id}" disconnected — retrying…`);
-  });
-
-  manager.on("trackStart", (player, track: Track | null) => {
-    if (!track) return;
-    const channel = client.channels.cache.get(player.textChannelId ?? "");
-    if (channel?.isTextBased()) {
-      sendNowPlayingMessage(channel, player, track).catch((err) =>
-        console.error("[lavalink] Failed to send now-playing:", err)
-      );
-    }
-  });
-
-  manager.on("trackEnd", (player, _track) => {
-    if (player.queue.tracks.length === 0) {
-      disableNowPlayingButtons(player.guildId, "Queue Finished").catch(() => {});
-      const channel = client.channels.cache.get(player.textChannelId ?? "");
-      if (channel?.isTextBased() && "send" in channel) {
-        (channel as any)
-          .send("✅ Queue finished — still in the channel. Use `!play <song>` to add more.")
-          .catch(() => {});
-      }
-    }
-  });
-
-  return manager;
-}
+        autoReconnectOn
