@@ -17,6 +17,7 @@ startBot().catch((err) => {
   process.exit(1);
 });
 
+// Stop Lavalink node errors from crashing the whole bot
 process.on("unhandledRejection", (reason) => {
   console.error("[warn] Unhandled rejection (ignored):", reason);
 });
