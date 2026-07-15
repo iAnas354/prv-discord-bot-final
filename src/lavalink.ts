@@ -6,20 +6,29 @@ export function setupLavalink(client: Client): LavalinkManager {
   const manager = new LavalinkManager({
     nodes: [
       {
-        host: "lava-v4.millohost.my.id",
+        host: "lavalinkv4.serenetia.com",
         port: 443,
-        authorization: "https://discord.gg/mjS5J2K3ep",
+        authorization: "https://seretia.link/discord",
         secure: true,
         id: "node1",
         retryAmount: 999,
         retryDelay: 30000,
       },
       {
-        host: "lavalinkv4.serenetia.com",
+        host: "lavalink-v4.triniumhost.com",
         port: 443,
-        authorization: "https://seretia.link/discord",
+        authorization: "free",
         secure: true,
         id: "node2",
+        retryAmount: 999,
+        retryDelay: 30000,
+      },
+      {
+        host: "nodelink.triniumhost.com",
+        port: 443,
+        authorization: "free",
+        secure: true,
+        id: "node3",
         retryAmount: 999,
         retryDelay: 30000,
       },
